@@ -13,10 +13,16 @@ const displayCategory = categorys => {
         const categoryItem = document.createElement('div');
         categoryItem.classList.add('col');
         categoryItem.innerHTML = `
-        <div class="col">${category.category_name}</div>
+        <div onclick="categoryId('${category.category_id}')">${category.category_name}</div>
         `
         allCategories.appendChild(categoryItem);
     })
+}
+
+const categoryId = async (id) => {
+    const response = await fetch(`https://openapi.programming-hero.com/api/news/category/${id}`);
+    const data = await response.json();
+    console.log(data.data);
 }
 
 loadCategory();
