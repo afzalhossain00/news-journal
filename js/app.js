@@ -40,8 +40,11 @@ const displayCategoryNews = allnews => {
             <div class="col-md-9">
                 <div class="card-body">
                     <h5 class="card-title mb-4">${news.title}</h5>
-                    <p class="card-text">${news.details}</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    <p class="card-text">${news.details.slice(0, 300)}</p>
+                    <div class="d-flex">
+                    <img id="author-img" src="${news.author.img}"alt="...">
+                    <p class="mx-2 fw-bold">${news.author.name}</p>
+                  </div>
                 </div>
             </div>
         </div>    
@@ -49,6 +52,7 @@ const displayCategoryNews = allnews => {
         allNewsDetail.appendChild(newsItem);
     })
 }
+categoryId('08');
 
 loadCategory();
 
