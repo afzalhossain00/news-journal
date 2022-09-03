@@ -20,6 +20,7 @@ const displayCategory = categorys => {
 }
 
 const categoryId = async (id) => {
+    loading(true);
     const response = await fetch(`https://openapi.programming-hero.com/api/news/category/${id}`);
     const data = await response.json();
     displayCategoryNews(data.data);
@@ -40,7 +41,7 @@ const displayCategoryNews = allnews => {
             <div class="col-md-9">
                 <div class="card-body">
                     <h5 class="card-title mb-4">${news.title}</h5>
-                    <p class="card-text">${news.details.slice(0, 300)}</p>
+                    <p class="card-text">${news.details.slice(0, 300) + '...'}</p>
                 </div>
                 <div class="d-flex justify-content-evenly py-5">
                   <div class="d-flex">
@@ -51,13 +52,29 @@ const displayCategoryNews = allnews => {
                     <p class="me-2"><i class="fa-regular fa-eye"></i></p>
                     <p class="fw-bold">${news.total_view ? news.total_view : 'No data found'}</p>
                   </div>
+                  <div><p class= "text-primary fs-4 text"><i class="fa-solid fa-arrow-right"></i></p></div>
              </div>
             </div>
         </div>    
         `
         allNewsDetail.appendChild(newsItem);
     })
+    loading(false);
 }
+
+
+//Spinner or Loading Function
+const loading = (isLoading) => {
+    const loadingDiv = document.getElementById('loading-div');
+    if (isLoading === true) {
+        loadingDiv.classList.remove('d-none');
+
+    }
+    else {
+        loadingDiv.classList.add('d-none');
+    }
+}
+
 categoryId('08');
 
 loadCategory();
