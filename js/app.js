@@ -41,11 +41,17 @@ const displayCategoryNews = allnews => {
                 <div class="card-body">
                     <h5 class="card-title mb-4">${news.title}</h5>
                     <p class="card-text">${news.details.slice(0, 300)}</p>
-                    <div class="d-flex">
-                    <img id="author-img" src="${news.author.img}"alt="...">
-                    <p class="mx-2 fw-bold">${news.author.name}</p>
-                  </div>
                 </div>
+                <div class="d-flex justify-content-evenly py-5">
+                  <div class="d-flex">
+                   <img id="author-img" src="${news.author.img}"alt="...">
+                   <p class="mx-2 fw-bold">${news.author.name ? news.author.name : 'No data found'}</p>
+                   </div>
+                  <div class="d-flex">
+                    <p class="me-2"><i class="fa-regular fa-eye"></i></p>
+                    <p class="fw-bold">${news.total_view ? news.total_view : 'No data found'}</p>
+                  </div>
+             </div>
             </div>
         </div>    
         `
