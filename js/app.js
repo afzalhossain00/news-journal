@@ -40,7 +40,11 @@ const categoryId = async (id, newsItem) => {
 
 // display all news for category item
 const displayCategoryNews = (allnews, newsItem) => {
+
     const allNewsDetail = document.getElementById('all-news-detail')
+    console.log(allnews)
+    // data sorting
+
     loading(false);
     allNewsDetail.textContent = '';
 
@@ -58,6 +62,11 @@ const displayCategoryNews = (allnews, newsItem) => {
     else {
         noNews.classList.add('d-none');
     }
+
+    // data sorting by total view
+    allnews.sort((a, b) => {
+        return b.total_view - a.total_view;
+    });
 
     allnews.forEach(news => {
         const newsItem = document.createElement('div');
