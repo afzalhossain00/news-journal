@@ -19,7 +19,7 @@ const displayCategory = categorys => {
         const categoryItem = document.createElement('div');
         categoryItem.classList.add('col');
         categoryItem.innerHTML = `
-        <button onclick="categoryId('${category.category_id}')" type="button" class="btn btn-light">${category.category_name}</button>
+        <button onclick="categoryId('${category.category_id}' , '${category.category_name}')")" type="button" class="btn btn-light">${category.category_name}</button>
         `
         allCategories.appendChild(categoryItem);
     })
@@ -47,7 +47,7 @@ const displayCategoryNews = (allnews, newsItem) => {
     const quantityNews = document.getElementById('news-quantity');
     quantityNews.value = allnews.length;
     quantityNews.innerHTML = `
-        <p class="fw-bold">${quantityNews.value} items found for the category of ${newsItem}</p>
+        <p class="fw-bold pt-3 px-2">${quantityNews.value} items found for the category of ${newsItem ? newsItem : 'All News'}</p>
     `;
 
     // No news Found
