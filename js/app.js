@@ -11,6 +11,7 @@ const loadCategory = async () => {
     }
 }
 
+// display category items
 const displayCategory = categorys => {
     const allCategories = document.getElementById('all-category');
     categorys.forEach(category => {
@@ -24,20 +25,29 @@ const displayCategory = categorys => {
     })
 }
 
-const categoryId = async (id) => {
+const categoryId = async (id, newsItem) => {
     loading(true);
-    const response = await fetch(`https://openapi.programming-hero.com/api/news/category/${id}`);
-    const data = await response.json();
-    displayCategoryNews(data.data);
+    const url = `https://openapi.programming-hero.com/api/news/category/${id}`
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        displayCategoryNews(data.data, newsItem);
+    }
+    catch {
+        console.log(error);
+    }
 }
-const displayCategoryNews = allnews => {
+
+// display all news for category item
+const displayCategoryNews = (allnews) => {
     const allNewsDetail = document.getElementById('all-news-detail')
     loading(false);
-    allNewsDetail.innerHTML = '';
+    allNewsDetail.textContent = '';
     allnews.forEach(news => {
         const newsItem = document.createElement('div');
         newsItem.classList.add('card')
         newsItem.classList.add('mb-3')
+        console.log(news)
         newsItem.innerHTML = `
         <div class="row g-0">
             <div class="col-md-3">
@@ -58,7 +68,7 @@ const displayCategoryNews = allnews => {
                     <p class="fw-bold">${news.total_view ? news.total_view : 'No data found'}</p>
                   </div>
                     <div class= "text-primary fs-4 text border border-0" >
-                    <button onclick="loadNewsDetail('${news}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newsDetailsModal">
+                    <button onclick="loadNewsDetail('${news._id}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newsDetailsModal">
                     <i class="fa-solid fa-arrow-right"></i>
                 </button>
                   </div>
@@ -71,15 +81,37 @@ const displayCategoryNews = allnews => {
 }
 
 const loadNewsDetail = async (newsId) => {
-    const response = await fetch(`https://openapi.programming-hero.com/api/news/category/${newsId}`);
-    const data = await response.json();
-    displayNewsDetails(data.data);
+    const url = `https://openapi.programming-hero.com/api/news/${newsId}`
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        displayNewsDetails(data.data);
+    }
+    catch {
+        console.log(error);
+    }
 }
 
+// display modal details
 const displayNewsDetails = newsDetails => {
-    console.log(newsDetails)
-}
+    const modalTitle = document.getElementById('newsDetailsModalLabel');
 
+    newsDetails.forEach(element => {
+
+        modalTitle.innerText = element.title;
+        const newsesDetails = document.getElementById('news-details');
+        newsesDetails.innerHTML = `
+        <div class="d-flex mb-4"><img id="author-img" src="${element.author.img}"alt="...">
+        <p class="mx-2 fw-bold">${element.author.name ? element.author.name : 'No data found'}</p>
+        <p class="mx-2 ">Publish Date: ${element.author.published_date ? element.author.published_date : 'No data found'}</p></div>
+    <img class="mb-4 img-fluid" src="${element.image_url
+                ? element.image_url
+                : 'No Image found'}">
+    <p>Details: ${element.details ? element.details : 'No data'}</p>  
+    <p class="mx-2 fw-semibold">Total View Count: ${element.total_view ? element.total_view : 'No data found'}</p>
+    `;
+    });
+}
 
 //Spinner or Loading Function
 const loading = (isLoading) => {
