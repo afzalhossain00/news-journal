@@ -15,7 +15,6 @@ const loadCategory = async () => {
 const displayCategory = categorys => {
     const allCategories = document.getElementById('all-category');
     categorys.forEach(category => {
-        // console.log(category);
         const categoryItem = document.createElement('div');
         categoryItem.classList.add('col');
         categoryItem.innerHTML = `
@@ -25,6 +24,7 @@ const displayCategory = categorys => {
     })
 }
 
+// load unique category data
 const categoryId = async (id, newsItem) => {
     loading(true);
     const url = `https://openapi.programming-hero.com/api/news/category/${id}`
@@ -40,21 +40,16 @@ const categoryId = async (id, newsItem) => {
 
 // display all news for category item
 const displayCategoryNews = (allnews, newsItem) => {
-
     const allNewsDetail = document.getElementById('all-news-detail')
-    console.log(allnews)
-    // data sorting
-
     loading(false);
     allNewsDetail.textContent = '';
-
     const quantityNews = document.getElementById('news-quantity');
     quantityNews.value = allnews.length;
     quantityNews.innerHTML = `
         <p class="fw-bold pt-3 px-2">${quantityNews.value} items found for the category of ${newsItem ? newsItem : 'All News'}</p>
     `;
 
-    // No news Found
+    // No News Found
     const noNews = document.getElementById('no-news-found');
     if (allnews.length === 0) {
         noNews.classList.remove('d-none');
@@ -63,7 +58,7 @@ const displayCategoryNews = (allnews, newsItem) => {
         noNews.classList.add('d-none');
     }
 
-    // data sorting by total view
+    // data sorting and shows most view news at top
     allnews.sort((a, b) => {
         return b.total_view - a.total_view;
     });
@@ -72,13 +67,12 @@ const displayCategoryNews = (allnews, newsItem) => {
         const newsItem = document.createElement('div');
         newsItem.classList.add('card')
         newsItem.classList.add('mb-3')
-        console.log(news)
         newsItem.innerHTML = `
         <div class="row g-0">
             <div class="col-md-3">
                 <img src="${news.thumbnail_url}" class="img-fluid rounded-start" alt="...">
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9 p-2">
                 <div class="card-body">
                     <h5 class="card-title mb-4">${news.title}</h5>
                     <p class="card-text">${news.details.slice(0, 300) + '...'}</p>
@@ -105,6 +99,7 @@ const displayCategoryNews = (allnews, newsItem) => {
     })
 }
 
+// load single news details data
 const loadNewsDetail = async (newsId) => {
     const url = `https://openapi.programming-hero.com/api/news/${newsId}`
     try {
@@ -120,20 +115,19 @@ const loadNewsDetail = async (newsId) => {
 // display modal details
 const displayNewsDetails = newsDetails => {
     const modalTitle = document.getElementById('newsDetailsModalLabel');
-
     newsDetails.forEach(element => {
-
         modalTitle.innerText = element.title;
         const newsesDetails = document.getElementById('news-details');
         newsesDetails.innerHTML = `
-        <div class="d-flex mb-4"><img id="author-img" src="${element.author.img}"alt="...">
-        <p class="mx-2 fw-bold">${element.author.name ? element.author.name : 'No data found'}</p>
-        <p class="mx-2 ">Publish Date: ${element.author.published_date ? element.author.published_date : 'No data found'}</p></div>
-    <img class="mb-4 img-fluid" src="${element.image_url
-                ? element.image_url
-                : 'No Image found'}">
-    <p>Details: ${element.details ? element.details : 'No data'}</p>  
-    <p class="mx-2 fw-semibold">Total View Count: ${element.total_view ? element.total_view : 'No data found'}</p>
+        <div 
+            class="d-flex mb-4 p-2"><img id="author-img" src="${element.author.img}"alt="...">
+            <p class="mx-2 fw-bold">${element.author.name ? element.author.name : 'No data found'}</p>
+            <p class="mx-2 ">Publish Date: ${element.author.published_date ? element.author.published_date : 'No data found'}</p>
+        </div>
+             <img class="mb-4 img-fluid" src="${element.image_url
+                ? element.image_url : 'No Image found'}">
+        <p>Details: ${element.details ? element.details : 'No data'}</p>  
+        <p class="mx-2 fw-semibold">Total View Count: ${element.total_view ? element.total_view : 'No data found'}</p>
     `;
     });
 }
