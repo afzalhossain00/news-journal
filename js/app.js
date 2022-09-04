@@ -39,10 +39,26 @@ const categoryId = async (id, newsItem) => {
 }
 
 // display all news for category item
-const displayCategoryNews = (allnews) => {
+const displayCategoryNews = (allnews, newsItem) => {
     const allNewsDetail = document.getElementById('all-news-detail')
     loading(false);
     allNewsDetail.textContent = '';
+
+    const quantityNews = document.getElementById('news-quantity');
+    quantityNews.value = allnews.length;
+    quantityNews.innerHTML = `
+        <p class="fw-bold">${quantityNews.value} items found for the category of ${newsItem}</p>
+    `;
+
+    // No news Found
+    const noNews = document.getElementById('no-news-found');
+    if (allnews.length === 0) {
+        noNews.classList.remove('d-none');
+    }
+    else {
+        noNews.classList.add('d-none');
+    }
+
     allnews.forEach(news => {
         const newsItem = document.createElement('div');
         newsItem.classList.add('card')
@@ -68,7 +84,7 @@ const displayCategoryNews = (allnews) => {
                     <p class="fw-bold">${news.total_view ? news.total_view : 'No data found'}</p>
                   </div>
                     <div class= "text-primary fs-4 text border border-0" >
-                    <button onclick="loadNewsDetail('${news._id}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newsDetailsModal">
+                    <button onclick="loadNewsDetail('${news._id}')" type="button" class="btn btn-primary fw-bold" data-bs-toggle="modal" data-bs-target="#newsDetailsModal">Details 
                     <i class="fa-solid fa-arrow-right"></i>
                 </button>
                   </div>
