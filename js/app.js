@@ -70,9 +70,9 @@ const displayCategoryNews = (allnews, newsItem) => {
         newsItem.innerHTML = `
         <div class="row g-0">
             <div class="col-md-3">
-                <img src="${news.thumbnail_url}" class="img-fluid rounded-start" alt="...">
+                <img src="${news.thumbnail_url}" class="img-fluid rounded-start h-100 w-100 p-2" alt="...">
             </div>
-            <div class="col-md-9 p-2">
+            <div class="col-md-9 pt-5">
                 <div class="card-body">
                     <h5 class="card-title mb-4">${news.title}</h5>
                     <p class="card-text">${news.details.slice(0, 300) + '...'}</p>
